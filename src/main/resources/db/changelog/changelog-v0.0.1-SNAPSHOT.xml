@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-	<changeSet id="16642103693333" author="hazem">
+	<changeSet id="16642103693333" author="hhadhri">
 		<createSequence  incrementBy="1"  sequenceName="project_instance_id_seq" startValue="1" />
 		<createSequence  incrementBy="1"  sequenceName="io_mapping_instance_id_seq" startValue="1" />
 		<createSequence  incrementBy="1"  sequenceName="network_instance_id_seq" startValue="1" />

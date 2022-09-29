@@ -1,5 +1,7 @@
 package com.actia.genbot.domain.model;
 
+
+
 import java.util.List;
 
 
@@ -21,19 +23,14 @@ import javax.validation.constraints.Pattern;
 import com.actia.genbot.domain.model.enumeration.InputServices;
 import com.actia.genbot.domain.model.enumeration.OutputServices;
 
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 @Table(name = "io_mapping")
 @SuppressFBWarnings
 public class IoMappingEntity {
@@ -45,14 +42,17 @@ public class IoMappingEntity {
 	@NotNull
 	@Pattern(regexp="^[^0-9][a-zA-Z0-9]{1,50}$",message="name must be of 1 to 50 length with no special characters") 
 	private String name;
+	
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private InputServices inputService;
+	
 	@Enumerated(EnumType.STRING)
 	private OutputServices OutputService;
 	
 	@ManyToOne
 	ProjectEntity project;
+	
 	@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY, mappedBy="ioMapping")
 	private List<PinTypeEntity> PinType;
 	

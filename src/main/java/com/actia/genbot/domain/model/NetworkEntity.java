@@ -1,5 +1,7 @@
 package com.actia.genbot.domain.model;
 
+
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -14,19 +16,15 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@ToString
 @Table(name = "network")
 @SuppressFBWarnings
 public class NetworkEntity {
