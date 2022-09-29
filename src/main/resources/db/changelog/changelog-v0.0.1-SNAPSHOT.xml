@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+	<changeSet id="16642103693333" author="hazem">
+		<createSequence  incrementBy="1"  sequenceName="project_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="io_mapping_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="network_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="node_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="pin_type_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="service_argument_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="service_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="vts_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="test_plan_type_instance_id_seq" startValue="1" />
+		<createSequence  incrementBy="1"  sequenceName="test_tool_name_instance_id_seq" startValue="1" />
+
+		<sql>CREATE TYPE status_type AS ENUM ('created','finished','canceled','running')</sql>
+		<sql>CREATE TYPE output_services_type AS ENUM ('FPV','V')</sql>
+		<sql>CREATE TYPE argument_type AS ENUM ('type1','type2')</sql>
+		<sql>CREATE TYPE input_services_type AS ENUM ('C','V','R')</sql>
+
+		<createTable tableName="project">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="project_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_PROJET" />
+			</column>
+			<column name="projectName" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="projectIdentifier" type="varchar(50)">
+				<constraints unique="true" nullable="false" />
+			</column>
+			<column name="cutomerName" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="testPlanReference" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="testToolNameId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="tension" type="float">
+				<constraints nullable="false" />
+			</column>
+			<column name="testPlanTypeId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="testPlanFile" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="createdAt" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="createdBy" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="lasUpdatedAt" type="datetime">
+				<constraints nullable="false" />
+			</column>
+			<column name="lastUpdatedBy" type="bigint">
+				<constraints nullable="false" />
+			</column>
+			<column name="status" type="status_type">
+				<constraints nullable="false" />
+			</column>
+			<column name="isLocked" type="boolean">
+				<constraints nullable="false" />
+			</column>
+			<column name="deleted" type="boolean">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createTable tableName="io_mapping">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="io_mapping_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_IO_MAPPING" />
+			</column>
+			<column name="name" type="varchar(50)">
+				<constraints nullable="false" />
+			</column>
+			<column name="inputService" type="input_services_type">
+				<constraints nullable="false" />
+			</column>
+			<column name="OutputService" type="output_services_type">
+				<constraints nullable="false" />
+			</column>
+			<column name="projectId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createTable tableName="network">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="network_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_NETWORK" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="type" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="projectId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="node">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="node_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_NODE" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="nodeFile" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="databaseFile" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="networkId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="pin_type">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="pin_type_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_PIN_TYPE" />
+			</column>
+			<column name="inMax" type="bigint">
+				<constraints nullable="true" />
+			</column>
+			<column name="inMin" type="bigint">
+				<constraints nullable="true" />
+			</column>
+			<column name="outMax" type="bigint">
+				<constraints nullable="true" />
+			</column>
+			<column name="outMin" type="bigint">
+				<constraints nullable="true" />
+			</column>
+			<column name="ioMappingId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="service_argument">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="service_argument_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_SERVICE_ARGUMENT" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="type" type="argument_type">
+				<constraints nullable="false" />
+			</column>
+			<column name="serviceId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createTable tableName="service">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="service_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_SERVICE" />
+			</column>
+			<column name="serviceId" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="name" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="type" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="serviceRetId" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="serviceRetName" type="varchar(100)">
+				<constraints nullable="false" />
+			</column>
+			<column name="serviceRetType" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="argValueId" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="argValue" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="argValueIdType" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="projectId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="vts">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="vts_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_VTS" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="Quantity" type="int">
+				<constraints nullable="false" />
+			</column>
+			<column name="projectId" type="bigint">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="test_tool_name">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="test_tool_name_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_TEST_TOOL_NAME" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+		<createTable tableName="test_plan_type">
+
+			<column name="id" type="bigint" defaultValueSequenceNext="test_plan_type_instance_id_seq">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="PK_TEST_PLAN_TYPE" />
+			</column>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false" />
+			</column>
+
+		</createTable>
+
+
+		<addForeignKeyConstraint baseColumnNames="projectId" baseTableName="io_mapping" constraintName="FK_IO_MAPPING_PROJECT"   referencedColumnNames="id" referencedTableName="project"  />
+		<addForeignKeyConstraint baseColumnNames="projectId" baseTableName="service" constraintName="FK_SERVICE_PROJECT"   referencedColumnNames="id" referencedTableName="project"  />
+		<addForeignKeyConstraint baseColumnNames="projectId" baseTableName="network" constraintName="FK_NETWORK_PROJECT"   referencedColumnNames="id" referencedTableName="project"  />
+		<addForeignKeyConstraint baseColumnNames="projectId" baseTableName="vts" constraintName="FK_VTS_PROJECT"  referencedColumnNames="id" referencedTableName="project"  />
+		<addForeignKeyConstraint baseColumnNames="serviceId" baseTableName="service_argument" constraintName="FK_SERVICE_ARGUMENT_SERVICE"  referencedColumnNames="id" referencedTableName="service"  />
+		<addForeignKeyConstraint baseColumnNames="networkId" baseTableName="node" constraintName="FK_NODE_NETWORK"  referencedColumnNames="id" referencedTableName="network" validate="true" />
+		<addForeignKeyConstraint baseColumnNames="ioMappingId" baseTableName="pin_type" constraintName="FK_PIN_TYPE_IO_MAPPING"  referencedColumnNames="id" referencedTableName="io_mapping"  />
+
+		<addForeignKeyConstraint baseColumnNames="testToolNameId" baseTableName="project" constraintName="FK_PROJECT_TEST_TOOL_NAME"  referencedColumnNames="id" referencedTableName="test_tool_name"  />
+		<addForeignKeyConstraint baseColumnNames="testPlanTypeId" baseTableName="project" constraintName="FK_PROJECT_TEST_PLAN_TYPE"  referencedColumnNames="id" referencedTableName="test_plan_type"  />
+
+	</changeSet>
+</databaseChangeLog>
